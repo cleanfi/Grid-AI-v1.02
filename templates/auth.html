@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>GRID AI — Entrar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000;--surface:#0f0f0f;--surface2:#141414;--border:#2a2a2a;--border-hi:#3d3d3d;
+  --text:#e2e2e2;--muted:#666;--dim:#333;--yellow:#f5c518;--cyan:#00d4ff;
+  --white:#fff;--red:#ff4545;--green:#22c55e;
+  --font-d:'Syne',sans-serif;--font-m:'JetBrains Mono',monospace;
+  --tr:0.2s cubic-bezier(.4,0,.2,1);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-m);font-size:14px}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+
+/* noise */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+
+.card{
+  position:relative;z-index:1;
+  width:min(440px,100%);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:40px 36px;
+  animation:cin .5s ease both;
+}
+@keyframes cin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* logo */
+.logo-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:32px}
+.logo-icon{position:relative;width:52px;height:52px}
+.logo-icon svg{width:52px;height:52px}
+.logo-ring{position:absolute;inset:-7px;border-radius:50%;border:1px solid var(--border);animation:rspin 8s linear infinite}
+@keyframes rspin{to{transform:rotate(360deg)}}
+.logo-ring::before{content:'';position:absolute;width:4px;height:4px;background:var(--cyan);border-radius:50%;top:-2px;left:50%;transform:translateX(-50%)}
+.logo-name{font-family:var(--font-d);font-size:24px;font-weight:800;letter-spacing:.2em;color:var(--white)}
+.logo-name span{color:var(--cyan)}
+.logo-sub{font-size:11px;color:var(--muted);letter-spacing:.06em}
+
+/* tabs */
+.tabs{display:flex;gap:0;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:28px}
+.tab{flex:1;padding:8px;font-family:var(--font-m);font-size:12px;font-weight:500;letter-spacing:.06em;border:none;background:none;color:var(--muted);cursor:pointer;border-radius:9px;transition:all var(--tr)}
+.tab.active{background:var(--surface);color:var(--white);border:1px solid var(--border-hi);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+
+/* form */
+.form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-wrap .mi{position:absolute;left:12px;font-size:18px;color:var(--dim);pointer-events:none}
+.input-wrap input{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-family:var(--font-m);font-size:13px;
+  padding:11px 14px 11px 40px;outline:none;transition:border-color var(--tr),box-shadow var(--tr);
+}
+.input-wrap input:focus{border-color:var(--border-hi);box-shadow:0 0 0 1px var(--border)}
+.input-wrap input::placeholder{color:var(--dim)}
+.input-wrap .toggle-pw{position:absolute;right:10px;background:none;border:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;transition:color var(--tr)}
+.input-wrap .toggle-pw:hover{color:var(--text)}
+
+/* error/success */
+.msg-box{padding:10px 14px;border-radius:8px;font-size:12px;display:none;align-items:center;gap:8px}
+.msg-box.error{background:rgba(255,69,69,.1);border:1px solid rgba(255,69,69,.3);color:var(--red);display:flex}
+.msg-box.success{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:var(--green);display:flex}
+.msg-box .mi{font-size:16px}
+
+/* submit btn */
+.submit-btn{
+  width:100%;padding:12px;background:var(--white);color:#000;
+  font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:.1em;
+  border:none;border-radius:12px;cursor:pointer;
+  transition:transform var(--tr),background var(--tr);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:4px;
+}
+.submit-btn:hover{background:#ddd;transform:translateY(-1px)}
+.submit-btn:active{transform:translateY(0)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.submit-btn .spinner{width:16px;height:16px;border:2px solid #333;border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.submit-btn.loading .spinner{display:block}
+.submit-btn.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.divider{text-align:center;font-size:11px;color:var(--dim);margin:4px 0}
+
+/* panel switch */
+.panel{display:none}
+.panel.active{display:block}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-wrap">
+    <div class="logo-icon">
+      <div class="logo-ring"></div>
+      <svg viewBox="0 0 64 64" fill="none"><polygon points="32,4 36.9,22.6 55.5,22.6 40.8,33.9 45.7,52.5 32,41.2 18.3,52.5 23.2,33.9 8.5,22.6 27.1,22.6" fill="white" opacity="0.95"/></svg>
+    </div>
+    <div class="logo-name">GRID <span>AI</span></div>
+    <div class="logo-sub">Deep Thinking · Document Analysis</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('login')">ENTRAR</button>
+    <button class="tab" onclick="switchTab('register')">CRIAR CONTA</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="panel active" id="panel-login">
+    <div class="form">
+      <div class="field">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="material-symbols-outlined mi">mail</span>
+          <input type="email" id="l-email" placeholder="seu@email.com" autocomplete="email"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <div class="input-wrap">
+          <span class="material-symbols-outlined mi">lock</span>
+          <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+          <button class="toggle-pw" onclick="togglePw('l-pass',this)"><span class="material-symbols-outlined" style="font-size:18px">visibility</span></button>
+        </div>
+      </div>
+      <div class="msg-box" id="l-msg"></div>
+      <button class="submit-btn" id="l-btn" onclick="doLogin()">
+        <div class="spinner"></div>
+        <span class="btn-text">ENTRAR</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="panel" id="panel-register">
+    <div class="form">
+      <div class="field">
+        <label>Nome de usuário</label>
+        <div class="input-wrap">
+          <span class="material-symbols-outlined mi">person</span>
+          <input type="text" id="r-name" placeholder="Seu nome" autocomplete="username"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="material-symbols-outlined mi">mail</span>
+          <input type="email" id="r-email" placeholder="seu@email.com" autocomplete="email"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <div class="input-wrap">
+          <span class="material-symbols-outlined mi">lock</span>
+          <input type="password" id="r-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()"/>
+          <button class="toggle-pw" onclick="togglePw('r-pass',this)"><span class="material-symbols-outlined" style="font-size:18px">visibility</span></button>
+        </div>
+      </div>
+      <div class="msg-box" id="r-msg"></div>
+      <button class="submit-btn" id="r-btn" onclick="doRegister()">
+        <div class="spinner"></div>
+        <span class="btn-text">CRIAR CONTA</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',(tab==='login'?i===0:i===1)));
+  document.getElementById('panel-login').classList.toggle('active', tab==='login');
+  document.getElementById('panel-register').classList.toggle('active', tab==='register');
+  clearMsgs();
+}
+
+function clearMsgs(){ ['l-msg','r-msg'].forEach(id=>{ const el=document.getElementById(id); el.className='msg-box'; el.innerHTML=''; }); }
+
+function showMsg(id, type, text){
+  const el=document.getElementById(id);
+  el.className=`msg-box ${type}`;
+  el.innerHTML=`<span class="material-symbols-outlined mi">${type==='error'?'error':'check_circle'}</span>${text}`;
+}
+
+function setLoading(btnId, on){
+  const btn=document.getElementById(btnId);
+  btn.disabled=on; btn.classList.toggle('loading',on);
+}
+
+function togglePw(inputId, btn){
+  const inp=document.getElementById(inputId);
+  const show = inp.type==='password';
+  inp.type = show?'text':'password';
+  btn.querySelector('span').textContent = show?'visibility_off':'visibility';
+}
+
+async function doLogin(){
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  if(!email||!pass){ showMsg('l-msg','error','Preencha todos os campos.'); return; }
+  setLoading('l-btn',true);
+  try{
+    const r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const d=await r.json();
+    if(d.ok){ showMsg('l-msg','success',`Bem-vindo, ${d.username}!`); setTimeout(()=>location.href='/',800); }
+    else showMsg('l-msg','error',d.error||'Erro ao entrar.');
+  }catch(e){ showMsg('l-msg','error','Erro de conexão.'); }
+  setLoading('l-btn',false);
+}
+
+async function doRegister(){
+  const name=document.getElementById('r-name').value.trim();
+  const email=document.getElementById('r-email').value.trim();
+  const pass=document.getElementById('r-pass').value;
+  if(!name||!email||!pass){ showMsg('r-msg','error','Preencha todos os campos.'); return; }
+  setLoading('r-btn',true);
+  try{
+    const r=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,username:name,password:pass})});
+    const d=await r.json();
+    if(d.ok){ showMsg('r-msg','success','Conta criada! Redirecionando...'); setTimeout(()=>location.href='/',800); }
+    else showMsg('r-msg','error',d.error||'Erro ao criar conta.');
+  }catch(e){ showMsg('r-msg','error','Erro de conexão.'); }
+  setLoading('r-btn',false);
+}
+</script>
+</body>
+</html>
