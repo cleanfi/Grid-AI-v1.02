@@ -15,8 +15,8 @@ SUPABASE_KEY  = os.environ.get("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX
 UPSTASH_URL   = os.environ.get("UPSTASH_REDIS_REST_URL", "https://climbing-woodcock-78807.upstash.io")
 UPSTASH_TOKEN = os.environ.get("UPSTASH_REDIS_REST_TOKEN", "gQAAAAAAATPXAAIncDE4MTJmMDQwZTBlZmI0OTVjOGNmYmZkNmRlZmE0YjM3M3AxNzg4MDc")
 TAVILY_KEY    = os.environ.get("TAVILY_API_KEY", "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")
-DEV_EMAIL     = os.environ.get("DEV_EMAIL", "copsxd@outlook.com")
-DEV_SECRET    = os.environ.get("DEV_SECRET", "gridtestarea12##")
+DEV_EMAIL     = os.environ.get("DEV_EMAIL", "youremail@grid.app")
+DEV_SECRET    = os.environ.get("DEV_SECRET", "yourtestpassword")
 
 # APIs extras
 WEATHER_KEY   = os.environ.get("OPENWEATHER_KEY", "")
